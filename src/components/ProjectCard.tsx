@@ -2,7 +2,7 @@ interface IProjectCardProps {
 	title: string;
 }
 
-const ProjectCard = ({ title }: IProjectCardProps): React.ReactNode => {
+const ProjectCard = ({ title }: IProjectCardProps) => {
 	return (
 		<div className='ProjectCard'>
 			<p>{title}</p>
