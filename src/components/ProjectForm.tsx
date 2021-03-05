@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 interface IProject {
 	title: string;
-	id: number;
+	id: string;
 }
 
 const ProjectForm = () => {
@@ -16,9 +16,18 @@ const ProjectForm = () => {
 		setProjects((prevState) => {
 			const newProject: IProject = {
 				title: projectName,
-				id: +uniqid(),
+				id: uniqid(),
 			};
 			return [...prevState, newProject];
+		});
+	};
+
+	const deleteProject = (id: string): void => {
+		setProjects((prevList) => {
+			const newList = prevList.filter((project) => {
+				return project.id !== id;
+			});
+			return newList;
 		});
 	};
 
@@ -30,7 +39,7 @@ const ProjectForm = () => {
 					<input
 						type='text'
 						value={projectName}
-						onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+						onChange={(event: React.ChangeEvent<HTMLInputElement>): void =>
 							setProjectName(event.target.value)
 						}
 					/>
@@ -40,7 +49,14 @@ const ProjectForm = () => {
 
 			<div className='projectContainer'>
 				{projects.map((project: IProject) => {
-					return <ProjectCard key={project.id} title={project.title} />;
+					return (
+						<ProjectCard
+							key={project.id}
+							deleteProject={deleteProject}
+							id={project.id}
+							title={project.title}
+						/>
+					);
 				})}
 			</div>
 		</div>
