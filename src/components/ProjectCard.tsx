@@ -1,8 +1,8 @@
-interface IProjectCard {
+interface IProjectCardProps {
 	title: string;
 }
 
-const ProjectCard = ({ title }: IProjectCard): React.ReactNode => {
+const ProjectCard = ({ title }: IProjectCardProps): React.ReactNode => {
 	return (
 		<div className='ProjectCard'>
 			<p>{title}</p>
