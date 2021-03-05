@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import Header from './components/Header';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+	const [projectName, setProjectName] = useState('');
+
+	return (
+		<div>
+			<Header />
+			<form>
+				<label>
+					Project Name
+					<input
+						type='text'
+						value={projectName}
+						onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+							setProjectName(event.target.value)
+						}
+					/>
+				</label>
+				<button>Submit</button>
+			</form>
+		</div>
+	);
+};
 
 export default App;
