@@ -1,11 +1,7 @@
-import Header from './components/Header';
-import ProjectForm from './components/ProjectForm';
-
 const App = () => {
 	return (
 		<div>
-			<Header />
-			<ProjectForm />
+			<h1>Hello World</h1>
 		</div>
 	);
 };
