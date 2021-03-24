@@ -31,10 +31,6 @@ const StyledTask = styled.div<StyledTaskProps>`
 	text-decoration: ${({ isComplete }) => (isComplete ? 'line-through' : 'none')};
 	animation: 2s linear ${({ theme }) => theme.animations.fadeIn};
 	height: 60px;
-	&:hover {
-		transform: scale(1.1);
-	}
-	transition: transform 1s ease;
 `;
 
 interface TaskTitleProps {

@@ -1,10 +1,14 @@
-import React, { useReducer, useState } from 'react';
-import styled, { ThemeProvider } from 'styled-components';
-import Task, { TaskInterface } from './components/Task';
-import { darkTheme } from './theme';
+import React, { useReducer } from 'react';
 import uniqid from 'uniqid';
-import Button, { Input, Form, Title } from './common/StyledTask';
+
+import styled, { ThemeProvider } from 'styled-components';
+import { darkTheme } from './theme';
+import Button, { Title } from './common/StyledTask';
+
+import Task, { TaskInterface } from './components/Task';
 import { checkStorage, populateStorage } from './helper/localStorageLogic';
+import TaskForm from './components/TaskForm';
+
 const ClearBtn = styled(Button)`
 	width: 150px;
 	padding: 5px;
@@ -68,22 +72,9 @@ function reducer(state: typeof initialValue, action: ACTIONTYPE) {
 
 const App = () => {
 	const [tasks, dispatch] = useReducer(reducer, initialValue);
-	const [taskName, setTaskName] = useState<string>('');
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-		e.preventDefault();
-		setTaskName(e.target.value);
-	};
-
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		const task: TaskInterface = {
-			title: taskName,
-			isDone: false,
-			id: uniqid(),
-		};
+	const handleAddTask = (task: TaskInterface) => {
 		dispatch({ type: 'add', payload: task });
-		setTaskName('');
 	};
 
 	const handleDelete = (id: string): void => {
@@ -119,10 +110,7 @@ const App = () => {
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<Title>Task App</Title>
-			<Form onSubmit={handleSubmit}>
-				<Input type='text' value={taskName} onChange={handleChange} />
-				<Button isPrimary>Add</Button>
-			</Form>
+			<TaskForm addTask={handleAddTask} />
 			<TaskConteiner>
 				<ClearBtn onClick={clearCompletedTasks} isPrimary>
 					Delete Completed Tasks
