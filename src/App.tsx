@@ -3,30 +3,12 @@ import styled, { ThemeProvider } from 'styled-components';
 import Task, { TaskInterface } from './components/Task';
 import { darkTheme } from './theme';
 import uniqid from 'uniqid';
-import Button from './common/Button';
-
+import Button, { Input, Form, Title } from './common/StyledTask';
+import { checkStorage, populateStorage, getData } from './helper/localStorageLogic';
 const ClearBtn = styled(Button)`
 	width: 150px;
 	padding: 5px;
 	margin-top: 10px;
-`;
-
-const Title = styled.h1`
-	color: ${({ theme }) => theme.colors.primary};
-	text-align: center;
-`;
-
-const Form = styled.form`
-	width: 100vw;
-	height: 30px;
-	display: flex;
-	justify-content: center;
-`;
-
-const Input = styled.input`
-	width: 30%;
-	outline: none;
-	border: ${({ theme }) => theme.colors.primary} 2px solid;
 `;
 
 const TaskConteiner = styled.div`
@@ -46,11 +28,20 @@ type ACTIONTYPE =
 	| { type: 'complete'; payload: string }
 	| { type: 'clear' };
 
-const initialValue: TaskInterface[] | [] = [];
+function setInitialTasks() {
+	if (checkStorage('tasks')) {
+		return getData('tasks');
+	}
+	return [];
+}
+
+const initialValue: TaskInterface[] | [] = setInitialTasks();
 
 function reducer(state: typeof initialValue, action: ACTIONTYPE) {
 	switch (action.type) {
 		case 'add':
+			const tasks = [...state, { title: action.payload.title, isDone: false, id: uniqid() }];
+			populateStorage(tasks, 'tasks');
 			return [...state, { title: action.payload.title, isDone: false, id: uniqid() }];
 
 		case 'delete':
