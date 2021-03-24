@@ -8,12 +8,12 @@ function populateStorage<Type>(data: Type, key: string) {
 	localStorage.setItem(key, JSON.stringify(data));
 }
 
-function checkStorage(key: string) {
+function checkStorage<Type>(key: string, defaultValue: Type) {
 	if (!localStorage.getItem(key)) {
-		return false;
+		return defaultValue;
 	} else {
-		return true;
+		return getData(key);
 	}
 }
 
-export { getData, populateStorage, checkStorage };
+export { populateStorage, checkStorage };

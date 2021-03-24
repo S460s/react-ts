@@ -4,7 +4,7 @@ import Task, { TaskInterface } from './components/Task';
 import { darkTheme } from './theme';
 import uniqid from 'uniqid';
 import Button, { Input, Form, Title } from './common/StyledTask';
-import { checkStorage, populateStorage, getData } from './helper/localStorageLogic';
+import { checkStorage, populateStorage } from './helper/localStorageLogic';
 const ClearBtn = styled(Button)`
 	width: 150px;
 	padding: 5px;
@@ -28,41 +28,42 @@ type ACTIONTYPE =
 	| { type: 'complete'; payload: string }
 	| { type: 'clear' };
 
-function setInitialTasks() {
-	if (checkStorage('tasks')) {
-		return getData('tasks');
-	}
-	return [];
-}
-
-const initialValue: TaskInterface[] | [] = setInitialTasks();
+const initialValue: TaskInterface[] | [] = checkStorage<any[]>('tasks', []);
 
 function reducer(state: typeof initialValue, action: ACTIONTYPE) {
+	let value: TaskInterface[] | null = null;
 	switch (action.type) {
 		case 'add':
-			const tasks = [...state, { title: action.payload.title, isDone: false, id: uniqid() }];
-			populateStorage(tasks, 'tasks');
-			return [...state, { title: action.payload.title, isDone: false, id: uniqid() }];
+			value = [...state, { title: action.payload.title, isDone: false, id: uniqid() }];
+			break;
 
 		case 'delete':
-			return state.filter((todo) => todo.id !== action.payload);
+			value = state.filter((todo) => todo.id !== action.payload);
+			break;
 
 		case 'complete':
-			return state.map((task: TaskInterface) => {
+			value = state.map((task: TaskInterface) => {
 				return task.id === action.payload ? { ...task, isDone: !task.isDone } : task;
 			});
+			break;
 
 		case 'edit':
-			return state.map((task: TaskInterface) => {
+			value = state.map((task: TaskInterface) => {
 				return task.id === action.payload.id ? { ...task, title: action.payload.newName } : task;
 			});
+			break;
+
 		case 'clear':
-			return state.filter((task: TaskInterface) => {
+			value = state.filter((task: TaskInterface) => {
 				return !task.isDone;
 			});
+			break;
+
 		default:
 			throw new Error();
 	}
+	populateStorage<TaskInterface[]>(value, 'tasks');
+	return value;
 }
 
 const App = () => {
