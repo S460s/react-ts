@@ -5,9 +5,12 @@ import styled, { ThemeProvider } from 'styled-components';
 import { darkTheme } from './theme';
 import Button, { Title } from './common/StyledTask';
 
-import Task, { TaskInterface } from './components/Task';
+import Task from './components/Task';
 import { checkStorage, populateStorage } from './helper/localStorageLogic';
+import { TaskInterface } from './common/interfaces';
+
 import TaskForm from './components/TaskForm';
+import ProgressBar from './components/ProgressBar';
 
 const ClearBtn = styled(Button)`
 	width: 150px;
@@ -111,6 +114,7 @@ const App = () => {
 		<ThemeProvider theme={darkTheme}>
 			<Title>Task App</Title>
 			<TaskForm addTask={handleAddTask} />
+			<ProgressBar tasks={tasks} />
 			<TaskConteiner>
 				<ClearBtn onClick={clearCompletedTasks} isPrimary>
 					Delete Completed Tasks

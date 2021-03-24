@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Button, { Input, Form } from '../common/StyledTask';
 import uniqid from 'uniqid';
-import { TaskInterface } from './Task';
+import { TaskInterface } from '../common/interfaces';
 
 interface TaskFormProps {
 	addTask(task: TaskInterface): void;
