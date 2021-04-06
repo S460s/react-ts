@@ -29,13 +29,9 @@ const StyledTask = styled.div<StyledTaskProps>`
 	height: 60px;
 `;
 
-interface TaskTitleProps {
-	isDone: boolean;
-}
-
-const TaskTitle = styled.p<TaskTitleProps>`
+const TaskTitle = styled.p`
 	font-size: ${({ theme }) => theme.fontSize.large};
-	cursor: ${({ isDone }) => (isDone ? 'default' : 'pointer')};
+	cursor: pointer;
 `;
 
 const ButtonWrap = styled.div`
@@ -89,11 +85,10 @@ function Task({
 		<StyledTask isComplete={isDone}>
 			{!editMode ? (
 				<React.Fragment>
-					<TaskTitle isDone={isDone} onClick={toggleEdit}>
-						Task: {title}
-					</TaskTitle>
+					<TaskTitle onClick={completeTodo}>Task: {title}</TaskTitle>
+
 					<ButtonWrap>
-						<Button onClick={completeTodo}>{isDone ? 'Undo' : 'Finish'}</Button>
+						<Button onClick={toggleEdit}>Edit</Button>
 						<Button onClick={deleteTodo}>Delete</Button>
 					</ButtonWrap>
 				</React.Fragment>
