@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react';
+import React, { useReducer } from 'react';
 import uniqid from 'uniqid';
 
 import styled, { ThemeProvider } from 'styled-components';
@@ -82,7 +82,6 @@ function reducer(state: typeof initialValue, action: ACTIONTYPE) {
 
 const App = () => {
 	const [tasks, dispatch] = useReducer(reducer, initialValue);
-	const [isOpen, setIsOpen] = useState<boolean>(false);
 
 	const handleAddTask = (task: TaskInterface) => {
 		dispatch({ type: 'add', payload: task });
@@ -121,15 +120,12 @@ const App = () => {
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<Title>Task App</Title>
-			<TaskForm isOpen={isOpen} addTask={handleAddTask} />
+			<TaskForm addTask={handleAddTask} />
 			<ProgressBar tasks={tasks} />
 			<TaskConteiner>
 				{todoComponents}
 				<BigBtn onClick={clearCompletedTasks} isPrimary>
 					Clear
-				</BigBtn>
-				<BigBtn isPrimary onClick={() => setIsOpen((prevState) => !prevState)}>
-					Add Todo
 				</BigBtn>
 			</TaskConteiner>
 		</ThemeProvider>

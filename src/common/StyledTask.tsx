@@ -8,7 +8,8 @@ const Button = styled.button<ButtonProps>`
 		isPrimary ? theme.colors.primary : theme.colors.light};
 	color: ${({ isPrimary, theme }) =>
 		isPrimary ? theme.colors.light : theme.colors.primary};
-	width: 100px;
+
+	width: 120px;
 	outline: none;
 	border: none;
 	cursor: pointer;
@@ -27,7 +28,9 @@ export const Title = styled.h1`
 `;
 
 export const Input = styled.input`
-	width: 30%;
+	width: 40%;
+	min-width: 300px;
+	min-height: 30px;
 	outline: none;
 	border: ${({ theme }) => theme.colors.primary} 2px solid;
 `;
