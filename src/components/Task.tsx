@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import Button from '../common/StyledTask';
 import { TaskInterface } from '../common/interfaces';
 
@@ -68,6 +68,7 @@ const Input = styled.input`
 
 function Task({
 	title,
+	dueDate,
 	id,
 	isDone,
 	handleDelete,
@@ -125,7 +126,7 @@ function Task({
 				)}
 			</StyledTask>
 			<Details on={detailsMode}>
-				<p>Details</p>
+				<p>Due Date: {dueDate}</p>
 			</Details>
 		</TaskWrapper>
 	);

@@ -28,9 +28,10 @@ export const Title = styled.h1`
 `;
 
 export const Input = styled.input`
-	width: 40%;
+	width: 50%;
 	min-width: 300px;
 	min-height: 30px;
+	margin-top: 20px;
 	outline: none;
 	border: ${({ theme }) => theme.colors.primary} 2px solid;
 `;

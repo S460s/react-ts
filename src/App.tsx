@@ -43,7 +43,12 @@ function reducer(state: typeof initialValue, action: ACTIONTYPE) {
 		case 'add':
 			value = [
 				...state,
-				{ title: action.payload.title, isDone: false, id: uniqid() },
+				{
+					title: action.payload.title,
+					dueDate: action.payload.dueDate,
+					isDone: false,
+					id: uniqid(),
+				},
 			];
 			break;
 
@@ -108,6 +113,7 @@ const App = () => {
 			<Task
 				key={task.id}
 				title={task.title}
+				dueDate={task.dueDate}
 				id={task.id}
 				isDone={task.isDone}
 				handleDelete={handleDelete}

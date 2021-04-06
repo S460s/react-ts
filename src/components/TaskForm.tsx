@@ -38,7 +38,7 @@ const ButtonWrapper = styled.div`
 	justify-content: space-around;
 	width: 70%;
 	height: 40px;
-	margin-top: 350px;
+	margin-top: 320px;
 `;
 
 interface TaskFormProps {
@@ -47,18 +47,15 @@ interface TaskFormProps {
 
 function TaskForm({ addTask }: TaskFormProps) {
 	const [taskName, setTaskName] = useState<string>('');
+	const [dueDate, setDueDate] = useState('');
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-		e.preventDefault();
-		setTaskName(e.target.value);
-	};
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setIsOpen(false);
 		const task: TaskInterface = {
 			title: taskName,
+			dueDate,
 			isDone: false,
 			id: uniqid(),
 		};
@@ -70,13 +67,26 @@ function TaskForm({ addTask }: TaskFormProps) {
 		<div>
 			<StyledTaskForm isOpen={isOpen} onSubmit={handleSubmit}>
 				<h3>Task Form</h3>
-				<Input
-					required={true}
-					type='text'
-					value={taskName}
-					onChange={handleChange}
-					placeholder='Task Name'
-				/>
+				<label>
+					<span>Title:</span>
+					<Input
+						required={true}
+						type='text'
+						value={taskName}
+						onChange={(e) => setTaskName(e.target.value)}
+						placeholder='Task Name'
+					/>
+				</label>
+				<label>
+					<span>Due Date: </span>
+					<Input
+						required={true}
+						type='date'
+						value={dueDate}
+						onChange={(e) => setDueDate(e.target.value)}
+						min={new Date().toISOString().split('T')[0]}
+					/>
+				</label>
 				<ButtonWrapper>
 					<Button type='submit' isPrimary>
 						Add
