@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../common/StyledTask';
 import { TaskInterface } from '../common/interfaces';
+
 interface TaskProps extends TaskInterface {
 	handleDelete(id: string): void;
 	complete(id: string): void;
@@ -22,7 +23,8 @@ const StyledTask = styled.div<StyledTaskProps>`
 	min-width: 400px;
 	margin-top: 10px;
 	color: ${({ theme }) => theme.colors.dark};
-	text-decoration: ${({ isComplete }) => (isComplete ? 'line-through' : 'none')};
+	text-decoration: ${({ isComplete }) =>
+		isComplete ? 'line-through' : 'none'};
 	animation: 2s linear ${({ theme }) => theme.animations.fadeIn};
 	height: 60px;
 `;
@@ -53,7 +55,14 @@ const Input = styled.input`
 	margin-left: 10px;
 `;
 
-function Task({ title, id, isDone, handleDelete, complete, edit }: TaskProps): JSX.Element {
+function Task({
+	title,
+	id,
+	isDone,
+	handleDelete,
+	complete,
+	edit,
+}: TaskProps): JSX.Element {
 	const [editMode, setEditMode] = useState(false);
 	const [newTitle, setNewTitle] = useState(title);
 
@@ -90,7 +99,10 @@ function Task({ title, id, isDone, handleDelete, complete, edit }: TaskProps): J
 				</React.Fragment>
 			) : (
 				<React.Fragment>
-					<Input value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
+					<Input
+						value={newTitle}
+						onChange={(e) => setNewTitle(e.target.value)}
+					/>
 					<ButtonWrap>
 						<Button onClick={saveTodo}>Save</Button>
 						<Button onClick={toggleEdit}>Cancel</Button>

@@ -9,11 +9,11 @@ const StyledBar = styled.div<StyledBarProps>`
 	width: ${({ width }) => width}%;
 	height: 100%;
 	background-color: ${({ theme }) => theme.colors.primary};
-	transition: width 1s ease;
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
 	position: absolute;
+	transition: width 1s ease;
 `;
 
 const BarWrap = styled.div`
@@ -49,7 +49,7 @@ const ProgressBar = ({ tasks }: ProgressBarProps) => {
 			completed += 1;
 		}
 	});
-	let percent = total ? (completed / total) * 100 : 0;
+	let percent = total ? (completed / total) * 100 : 100;
 
 	return (
 		<BarWrap>

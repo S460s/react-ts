@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useState } from 'react';
 import uniqid from 'uniqid';
 
 import styled, { ThemeProvider } from 'styled-components';
@@ -12,7 +12,7 @@ import { TaskInterface } from './common/interfaces';
 import TaskForm from './components/TaskForm';
 import ProgressBar from './components/ProgressBar';
 
-const ClearBtn = styled(Button)`
+const BigBtn = styled(Button)`
 	width: 150px;
 	padding: 5px;
 	margin-top: 10px;
@@ -41,7 +41,10 @@ function reducer(state: typeof initialValue, action: ACTIONTYPE) {
 	let value: TaskInterface[] | null = null;
 	switch (action.type) {
 		case 'add':
-			value = [...state, { title: action.payload.title, isDone: false, id: uniqid() }];
+			value = [
+				...state,
+				{ title: action.payload.title, isDone: false, id: uniqid() },
+			];
 			break;
 
 		case 'delete':
@@ -50,13 +53,17 @@ function reducer(state: typeof initialValue, action: ACTIONTYPE) {
 
 		case 'complete':
 			value = state.map((task: TaskInterface) => {
-				return task.id === action.payload ? { ...task, isDone: !task.isDone } : task;
+				return task.id === action.payload
+					? { ...task, isDone: !task.isDone }
+					: task;
 			});
 			break;
 
 		case 'edit':
 			value = state.map((task: TaskInterface) => {
-				return task.id === action.payload.id ? { ...task, title: action.payload.newName } : task;
+				return task.id === action.payload.id
+					? { ...task, title: action.payload.newName }
+					: task;
 			});
 			break;
 
@@ -75,6 +82,7 @@ function reducer(state: typeof initialValue, action: ACTIONTYPE) {
 
 const App = () => {
 	const [tasks, dispatch] = useReducer(reducer, initialValue);
+	const [isOpen, setIsOpen] = useState<boolean>(false);
 
 	const handleAddTask = (task: TaskInterface) => {
 		dispatch({ type: 'add', payload: task });
@@ -113,13 +121,16 @@ const App = () => {
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<Title>Task App</Title>
-			<TaskForm addTask={handleAddTask} />
+			<TaskForm isOpen={isOpen} addTask={handleAddTask} />
 			<ProgressBar tasks={tasks} />
 			<TaskConteiner>
-				<ClearBtn onClick={clearCompletedTasks} isPrimary>
-					Delete Completed Tasks
-				</ClearBtn>
 				{todoComponents}
+				<BigBtn onClick={clearCompletedTasks} isPrimary>
+					Clear
+				</BigBtn>
+				<BigBtn isPrimary onClick={() => setIsOpen((prevState) => !prevState)}>
+					Add Todo
+				</BigBtn>
 			</TaskConteiner>
 		</ThemeProvider>
 	);
