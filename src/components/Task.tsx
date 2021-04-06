@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import Button from '../common/StyledTask';
 import { TaskInterface } from '../common/interfaces';
 
@@ -13,20 +13,35 @@ interface StyledTaskProps {
 	isComplete: boolean;
 }
 
+const TaskWrapper = styled.div`
+	animation: 2s linear ${({ theme }) => theme.animations.fadeIn};
+	width: 70%;
+`;
+
 const StyledTask = styled.div<StyledTaskProps>`
 	border: 3px solid ${({ theme }) => theme.colors.lightAccent};
+	border-bottom: none;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	width: 70%;
+	width: 100%;
 	max-width: 800px;
 	min-width: 400px;
 	margin-top: 10px;
 	color: ${({ theme }) => theme.colors.dark};
 	text-decoration: ${({ isComplete }) =>
 		isComplete ? 'line-through' : 'none'};
-	animation: 2s linear ${({ theme }) => theme.animations.fadeIn};
 	height: 60px;
+`;
+const Details = styled.div<{ on: boolean }>`
+	max-width: 800px;
+	min-width: 400px;
+	width: 100%;
+	border: 3px solid ${({ theme }) => theme.colors.lightAccent};
+	border-top: none;
+	height: ${({ on }) => (on ? 60 : 0)}px;
+	transition: height 0.5s ease;
+	overflow-y: hidden;
 `;
 
 const TaskTitle = styled.p`
@@ -60,6 +75,7 @@ function Task({
 	edit,
 }: TaskProps): JSX.Element {
 	const [editMode, setEditMode] = useState(false);
+	const [detailsMode, setDetailsMode] = useState(false);
 	const [newTitle, setNewTitle] = useState(title);
 
 	const toggleEdit = (): void => {
@@ -82,29 +98,36 @@ function Task({
 	};
 
 	return (
-		<StyledTask isComplete={isDone}>
-			{!editMode ? (
-				<React.Fragment>
-					<TaskTitle onClick={completeTodo}>Task: {title}</TaskTitle>
+		<TaskWrapper
+			onMouseEnter={() => setDetailsMode(true)}
+			onMouseLeave={() => setDetailsMode(false)}>
+			<StyledTask isComplete={isDone}>
+				{!editMode ? (
+					<React.Fragment>
+						<TaskTitle onClick={completeTodo}>Task: {title}</TaskTitle>
 
-					<ButtonWrap>
-						<Button onClick={toggleEdit}>Edit</Button>
-						<Button onClick={deleteTodo}>Delete</Button>
-					</ButtonWrap>
-				</React.Fragment>
-			) : (
-				<React.Fragment>
-					<Input
-						value={newTitle}
-						onChange={(e) => setNewTitle(e.target.value)}
-					/>
-					<ButtonWrap>
-						<Button onClick={saveTodo}>Save</Button>
-						<Button onClick={toggleEdit}>Cancel</Button>
-					</ButtonWrap>
-				</React.Fragment>
-			)}
-		</StyledTask>
+						<ButtonWrap>
+							<Button onClick={toggleEdit}>Edit</Button>
+							<Button onClick={deleteTodo}>Delete</Button>
+						</ButtonWrap>
+					</React.Fragment>
+				) : (
+					<React.Fragment>
+						<Input
+							value={newTitle}
+							onChange={(e) => setNewTitle(e.target.value)}
+						/>
+						<ButtonWrap>
+							<Button onClick={saveTodo}>Save</Button>
+							<Button onClick={toggleEdit}>Cancel</Button>
+						</ButtonWrap>
+					</React.Fragment>
+				)}
+			</StyledTask>
+			<Details on={detailsMode}>
+				<p>Details</p>
+			</Details>
+		</TaskWrapper>
 	);
 }
 
