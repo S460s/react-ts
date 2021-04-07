@@ -15,7 +15,9 @@ interface StyledTaskProps {
 
 const TaskWrapper = styled.div`
 	animation: 2s linear ${({ theme }) => theme.animations.fadeIn};
-	width: 70%;
+	width: 40%;
+	max-width: 800px;
+	min-width: 400px;
 `;
 
 const StyledTask = styled.div<StyledTaskProps>`
@@ -24,19 +26,15 @@ const StyledTask = styled.div<StyledTaskProps>`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	width: 100%;
-	max-width: 800px;
-	min-width: 400px;
+
 	margin-top: 10px;
 	color: ${({ theme }) => theme.colors.dark};
 	text-decoration: ${({ isComplete }) =>
 		isComplete ? 'line-through' : 'none'};
 	height: 60px;
 `;
+
 const Details = styled.div<{ on: boolean }>`
-	max-width: 800px;
-	min-width: 400px;
-	width: 100%;
 	border: 3px solid ${({ theme }) => theme.colors.lightAccent};
 	border-top: none;
 	height: ${({ on }) => (on ? 60 : 0)}px;

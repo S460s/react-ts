@@ -23,7 +23,6 @@ const TaskConteiner = styled.div`
 	flex-direction: column;
 	align-items: center;
 	flex-wrap: nowrap;
-	justify-content: center;
 	height: max-content;
 	width: 100vw;
 `;
