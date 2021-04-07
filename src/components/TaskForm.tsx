@@ -17,20 +17,25 @@ const FormButton = styled(Button)`
 `;
 
 const StyledTaskForm = styled(Form)<StyledFormProps>`
-	display: ${(props) => (props.isOpen ? 'flex' : 'none')};
+	display: flex;
+	z-index: ${({ isOpen }) => (isOpen ? 4 : -1)};
+	opacity: ${({ isOpen }) => (isOpen ? 100 : 0)}%;
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
-	margin: auto;
-	width: 50%;
-	max-width: 500px;
+	width: 40vw;
+	max-width: 800px;
 	height: 500px;
 	background-color: ${({ theme }) => theme.colors.light};
-	z-index: 4;
 	border: 3px solid ${({ theme }) => theme.colors.dark};
+	transform: scale(1.1);
+	transition: all 0.5s linear;
+
 	position: absolute;
-	left: 50%;
-	transform: translate(-50%, 0);
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
 `;
 
 const ButtonWrapper = styled.div`
@@ -49,7 +54,7 @@ function TaskForm({ addTask }: TaskFormProps) {
 	const [taskName, setTaskName] = useState<string>('');
 	const [dueDate, setDueDate] = useState('');
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-
+	console.log(isOpen);
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setIsOpen(false);
@@ -70,7 +75,7 @@ function TaskForm({ addTask }: TaskFormProps) {
 				<label>
 					<span>Title:</span>
 					<Input
-						required={true}
+						required
 						type='text'
 						value={taskName}
 						onChange={(e) => setTaskName(e.target.value)}
@@ -80,7 +85,7 @@ function TaskForm({ addTask }: TaskFormProps) {
 				<label>
 					<span>Due Date: </span>
 					<Input
-						required={true}
+						required
 						type='date'
 						value={dueDate}
 						onChange={(e) => setDueDate(e.target.value)}
